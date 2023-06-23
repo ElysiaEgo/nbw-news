@@ -142,8 +142,8 @@ async function updateNews() {
       data: {
         token: PUSHPLUS_TOKEN,
         title: '公文通已更新',
-        content: `${new Date(new Date().getTime() + new Date().getTimezoneOffset() * 60 * 1000 + 8 * 60 * 60 * 1000)}\n${message}`,
-        // topic: PUSHPLUS_TOPIC,
+        content: `${new Date().toLocaleString('zh-Hans-CN', { timeZone: 'Asia/Shanghai' })}\n${message}`,
+        topic: PUSHPLUS_TOPIC,
       }
     }).then(res => {
       console.log('message pushed')
