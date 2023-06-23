@@ -130,12 +130,13 @@ async function updateNews() {
   const news = await getNBW(twfid)
   const updatedNews: NBWNews[] = []
   news.forEach(news => {
-    if (!cachedNews.find(cachedNews => cachedNews.url === news.url)) {
+    if (cachedNews.find(cachedNews => cachedNews.url === news.url) === undefined) {
       updatedNews.push(news)
+      cachedNews.push(news)
     }
   })
   const message = updatedNews.map(news => `${news.title}\n<a href='${news.url}'>${news.url}</a>\n${news.date}`).join('\n')
-  if (message) {
+  if (updatedNews.length !== 0) {
     await axios({
       url: 'https://www.pushplus.plus/send',
       method: 'POST',
@@ -149,8 +150,8 @@ async function updateNews() {
       console.log('message pushed')
       console.log(res.data)
     })
+    console.log(`update news ${updateNews.length}`)
   }
-  if (updateNews.length !== 0) console.log(`update news ${updateNews.length}`)
 }
 
 // startup update
